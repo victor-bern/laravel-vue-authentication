@@ -31,4 +31,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password'
     ];
+
+    public function games()
+    {
+        return $this->hasMany(Game::class, "user_id", "id");
+    }
 }
