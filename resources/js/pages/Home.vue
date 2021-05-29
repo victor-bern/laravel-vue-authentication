@@ -120,14 +120,13 @@
 </template>
 
 
-<script lang="ts">
+<script>
 import Vue from "vue";
-import axios from "axios";
 import { mapGetters } from "vuex";
 import { doLogin } from "../services/loginService.js";
 import { doRegister } from "../services/registerService.js";
 
-export default Vue.extend({
+export default {
   data() {
     return {
       isHide: false,
@@ -194,7 +193,7 @@ export default Vue.extend({
       // ...
     ]),
   },
-});
+};
 </script>
 
 

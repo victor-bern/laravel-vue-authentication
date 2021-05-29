@@ -45,19 +45,43 @@
           <i class="material-icons" style="margin-left: 8px">add</i>
         </button>
       </div>
-      <div class="list-games"></div>
+      <div class="list-games">
+        <ul class="list-group">
+          <li
+            class="list-group-item active"
+            v-for="game in games"
+            v-bind:key="game.name"
+          >
+            {{ game.name }}
+            <span v-if="game.finished" class="badge badge-primary badge-pill">
+              <font-awesome-icon :icon="['fa', 'check']"
+            /></span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
 import { mapGetters } from "vuex";
 import axios from "axios";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { getGames, addGames } from "../services/userServices.js";
 
+library.add(faCheck);
+
+Vue.component("font-awesome-icon", FontAwesomeIcon);
+
+Vue.config.productionTip = false;
 export default {
   data: function () {
     return {
       isActive: false,
+      games: [],
       user: "",
       user_token: "",
       game: {
@@ -76,37 +100,24 @@ export default {
     hideModal: function () {
       this.isActive = false;
     },
-    addGame: function () {
-      const config = {
-        headers: {
-          Authorization: "Bearer " + "this.user_token",
-          Accept: "application/json",
+    addGame: async function () {
+      const response = await addGames(
+        {
+          user_id: this.user,
+          name: this.game.name,
+          finished: this.game.finished,
         },
-      };
-      const data = {
-        name: this.game.name,
-        finished: this.game.finished,
-        id: this.user,
-      };
-      console.log(data);
-      axios
-        .post("http://127.0.0.1:8000/api/game/addgame", data, config)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          if ((error.status = 401)) {
-            console.log({
-              error: error,
-              massage: "Unauthorized",
-            });
-          }
-        });
-
+        this.user_token
+      );
+      this.games.push({
+        id: response.game.id,
+        name: response.game.name,
+        finished: response.game.finished,
+      });
       this.hideModal();
     },
   },
-  mounted() {
+  async mounted() {
     const userToken = window.localStorage.getItem("User_Token");
     const user = window.localStorage.getItem("User");
     if (!userToken) {
@@ -115,12 +126,10 @@ export default {
     this.user = user;
     this.user_token = userToken;
 
-    const config = {
-      headers: {
-        Authorization: "Bearer " + "",
-        Accept: "application/json",
-      },
-    };
+    const response = await getGames(user, userToken);
+    if (response) {
+      this.games = response.user;
+    }
   },
 };
 </script>
@@ -175,5 +184,20 @@ export default {
   background: white;
   width: 550px;
   height: 200px;
+}
+
+.list-games {
+  display: flex;
+  max-width: 100%;
+}
+.list-group {
+  padding: 16px;
+  width: 100%;
+}
+.list-group-item {
+  width: 90%;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

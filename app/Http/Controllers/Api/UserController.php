@@ -40,16 +40,17 @@ class UserController extends Controller
     }
     public function addGames(Request $request)
     {
-        $user = User::find($request->id);
+        $user = User::find($request->user_id);
 
         $game = new Game();
         $game->name = $request->name;
         $game->finished = $request->finished;
 
-        $user->games()->save($game);
+        $game = $user->games()->save($game);
 
         return response()->json([
-            "Sucess" => true
+            "Sucess" => true,
+            "game" => $game
         ]);
     }
 
