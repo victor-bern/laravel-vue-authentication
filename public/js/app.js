@@ -12281,7 +12281,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(["getToken" // ...
-  ]))
+  ])),
+  mounted: function mounted() {
+    var token = window.localStorage.getItem("User_Token");
+
+    if (token) {
+      this.$router.push("/user");
+    }
+  }
 });
 
 /***/ }),
@@ -12380,6 +12387,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -12412,6 +12421,11 @@ vue__WEBPACK_IMPORTED_MODULE_6__.default.config.productionTip = false;
     },
     hideModal: function hideModal() {
       this.isActive = false;
+    },
+    logout: function logout() {
+      window.localStorage.removeItem("User_Token");
+      window.localStorage.removeItem("User");
+      this.$router.push("/");
     },
     addGame: function () {
       var _addGame = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -17519,7 +17533,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.container[data-v-99948d58] {\n  position: fixed;\n  width: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column;\n  background: linear-gradient(0deg, #ffc0cb 30%, #00ffff 90%);\n}\n.games[data-v-99948d58] {\n  width: 80%;\n  min-height: 85%;\n  background: white;\n  border-radius: 5px;\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.add[data-v-99948d58] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.add button[data-v-99948d58]::after {\n  content: \"\";\n}\n.modal[data-v-99948d58] {\n  visibility: hidden;\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  background: gray;\n  opacity: 0.95;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.modal.active[data-v-99948d58] {\n  visibility: visible;\n}\n.modal-container[data-v-99948d58] {\n  border-radius: 5px;\n  background: white;\n  width: 550px;\n  height: 200px;\n}\n.list-games[data-v-99948d58] {\n  display: flex;\n  max-width: 100%;\n}\n.list-group[data-v-99948d58] {\n  padding: 16px;\n  width: 100%;\n}\n.list-group-item[data-v-99948d58] {\n  margin-bottom: 8px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.container[data-v-99948d58] {\n  position: fixed;\n  width: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column;\n  background: linear-gradient(0deg, #ffc0cb 30%, #00ffff 90%);\n}\n.header[data-v-99948d58] {\n  display: flex;\n  width: 80%;\n  align-items: center;\n  justify-content: flex-end;\n  margin-bottom: 8px;\n}\n.games[data-v-99948d58] {\n  width: 80%;\n  min-height: 85%;\n  background: white;\n  border-radius: 5px;\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.add[data-v-99948d58] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.add button[data-v-99948d58]::after {\n  content: \"\";\n}\n.modal[data-v-99948d58] {\n  visibility: hidden;\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  background: gray;\n  opacity: 0.95;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.modal.active[data-v-99948d58] {\n  visibility: visible;\n}\n.modal-container[data-v-99948d58] {\n  border-radius: 5px;\n  background: white;\n  width: 550px;\n  height: 200px;\n}\n.list-games[data-v-99948d58] {\n  display: flex;\n  max-width: 100%;\n}\n.list-group[data-v-99948d58] {\n  padding: 16px;\n  width: 100%;\n}\n.list-group-item[data-v-99948d58] {\n  margin-bottom: 8px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -50207,6 +50221,22 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("h2", [_vm._v("Gerencie seus jogos")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.logout($event)
+            }
+          }
+        },
+        [_vm._v("Logout")]
+      )
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "games" }, [
       _c("div", { staticClass: "add" }, [

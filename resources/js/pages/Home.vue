@@ -191,6 +191,12 @@ export default {
       // ...
     ]),
   },
+  mounted() {
+    const token = window.localStorage.getItem("User_Token");
+    if (token) {
+      this.$router.push("/user");
+    }
+  },
 };
 </script>
 

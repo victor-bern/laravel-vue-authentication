@@ -31,8 +31,10 @@
         </form>
       </div>
     </div>
-
     <h2>Gerencie seus jogos</h2>
+    <div class="header">
+      <button class="btn btn-danger" v-on:click.prevent="logout">Logout</button>
+    </div>
     <div class="games">
       <div class="add">
         <button
@@ -99,6 +101,11 @@ export default {
     hideModal: function () {
       this.isActive = false;
     },
+    logout: function () {
+      window.localStorage.removeItem("User_Token");
+      window.localStorage.removeItem("User");
+      this.$router.push("/");
+    },
     addGame: async function () {
       const response = await addGames(
         {
@@ -143,6 +150,14 @@ export default {
   justify-content: center;
   flex-direction: column;
   background: linear-gradient(0deg, #ffc0cb 30%, #00ffff 90%);
+}
+
+.header {
+  display: flex;
+  width: 80%;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 8px;
 }
 
 .games {
