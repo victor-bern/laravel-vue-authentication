@@ -29,3 +29,4 @@ Route::prefix("user")->group(function () {
 
 Route::get("game/getgames/{user}", [UserController::class, "getGames"])->middleware("auth:sanctum");
 Route::post("game/addgame", [UserController::class, "addGames"])->middleware("auth:sanctum");
+Route::put("game/updategame/{game}", [GameController::class, "updateGame"])->middleware("auth:sanctum");

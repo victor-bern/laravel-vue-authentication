@@ -121,7 +121,6 @@
 
 
 <script>
-import Vue from "vue";
 import { mapGetters } from "vuex";
 import { doLogin } from "../services/loginService.js";
 import { doRegister } from "../services/registerService.js";
@@ -166,7 +165,6 @@ export default {
         this.userLogin.email,
         this.userLogin.password
       );
-      console.log({ login: login });
       if (login.message) {
         this.error = login.message;
         this.hideToast();

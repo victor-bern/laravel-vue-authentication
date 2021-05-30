@@ -50,12 +50,9 @@
           <li
             class="list-group-item active"
             v-for="game in games"
-            v-bind:key="game.name"
+            v-bind:key="game.id"
           >
-            {{ game.name }}
-            <span v-if="game.finished" class="badge badge-primary badge-pill">
-              <font-awesome-icon :icon="['fa', 'check']"
-            /></span>
+            <list-item :game="game" />
           </li>
         </ul>
       </div>
@@ -66,20 +63,22 @@
 <script>
 import Vue from "vue";
 import { mapGetters } from "vuex";
-import axios from "axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { getGames, addGames } from "../services/userServices.js";
+import ListItem from "../components/ListItem.vue";
 
 library.add(faCheck);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
+Vue.component("list-item", ListItem);
 
 Vue.config.productionTip = false;
 export default {
   data: function () {
     return {
+      isEditing: false,
       isActive: false,
       games: [],
       user: "",
@@ -129,6 +128,7 @@ export default {
     const response = await getGames(user, userToken);
     if (response) {
       this.games = response.user;
+      this.games.sort((a, b) => (a.id > b.id ? 1 : -1));
     }
   },
 };
@@ -138,7 +138,6 @@ export default {
 .container {
   position: fixed;
   width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -148,7 +147,7 @@ export default {
 
 .games {
   width: 80%;
-  height: 85%;
+  min-height: 85%;
   background: white;
   border-radius: 5px;
   display: grid;
@@ -195,9 +194,6 @@ export default {
   width: 100%;
 }
 .list-group-item {
-  width: 90%;
   margin-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
 }
 </style>
