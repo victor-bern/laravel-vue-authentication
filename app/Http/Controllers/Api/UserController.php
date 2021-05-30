@@ -18,6 +18,12 @@ class UserController extends Controller
             ]);
         }
 
+        if (User::where("email", "=", $request->email)) {
+            return response()->json([
+                "Erro" => "Email já existente"
+            ]);
+        }
+
         if (strlen($request->password) < 8) {
             return response()->json([
                 "Erro" => "Senha precisa ter 8 caracteres ou mais"
